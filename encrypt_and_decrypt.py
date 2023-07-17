@@ -112,24 +112,33 @@ def encrypt_or_decrypt(input, password, mode):
     password_numbers_np = np.array(password_numbers)
     password_numbers_np = password_numbers_np.reshape((2, 2))
     # print(password_numbers_np)
+    
+    # 비밀번호 역행렬이 존재하는지 판별
+    try:
+        a = print(np.linalg.inv(password_numbers_np))
+        print("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n")
+        
+        # 2x2씩 쪼개인 문자열 행렬과 비밀번호 행렬의 행렬곱 연산
+        encrypted_matrices = []
+        for i in foursliced_numbers_22_adjusted_np:
+            result_matrix = i @ password_numbers_np  # 행렬곱 연산
+            encrypted_matrices.append(result_matrix)
+        # ==============================
+        if mode == 1:
+            print(f"입력한 문장: {user_input}")
+            print(f"비밀번호: {user_password}")
+            print(f"암호화된 문장: {forced_decryption(encrypted_matrices)}")
 
-    # 2x2씩 쪼개인 문자열 행렬과 비밀번호 행렬의 행렬곱 연산
-    encrypted_matrices = []
-    for i in foursliced_numbers_22_adjusted_np:
-        result_matrix = i @ password_numbers_np  # 행렬곱 연산
-        encrypted_matrices.append(result_matrix)
-    # ==============================
-    if mode == 1:
-        print(f"입력한 문장: {user_input}")
-        print(f"비밀번호: {user_password}")
-        print(f"암호화된 문장: {forced_decryption(encrypted_matrices)}")
+            np.save("data\encrypted_sentence_mat.npy", encrypted_matrices)
+            # print(f"복호화된 문장: {decrypt(encrypted_matrices, password_numbers_np)}")
 
-        np.save("data\encrypted_sentence_mat.npy", encrypted_matrices)
-        # print(f"복호화된 문장: {decrypt(encrypted_matrices, password_numbers_np)}")
-
-    elif mode == 2:
-        encrypted_matrices = np.load("data/encrypted_sentence_mat.npy")
-        print(f"복호화된 문장: {decrypt(encrypted_matrices, password_numbers_np)}")
+        elif mode == 2:
+            encrypted_matrices = np.load("data/encrypted_sentence_mat.npy")
+            print(f"복호화된 문장: {decrypt(encrypted_matrices, password_numbers_np)}")
+    except:
+        print("비밀번호 행렬의 역행렬이 존재하지 않습니다. (determinant A = 0)\n"
+              "다른 비밀번호를 사용해주세요.")
+    
 
 mode = int(input("숫자를 입력하세요.\n①: 암호화, ②: 복호화\n▶ "))
 
