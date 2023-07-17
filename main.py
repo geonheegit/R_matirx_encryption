@@ -140,4 +140,7 @@ if mode == 1:
     encrypt_or_decrypt(user_input, user_password, 1)
 
 elif mode == 2:
-    encrypt_or_decrypt(user_input, user_password, 2)
+    try:
+        encrypt_or_decrypt(user_input, user_password, 2)
+    except:
+        print("오류 발생. 비밀번호가 틀립니다.")
