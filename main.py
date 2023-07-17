@@ -87,7 +87,7 @@ def encrypt_or_decrypt(input, password, mode):
         group = converted_numbers[i:i + 2]
         foursliced_numbers.append(group)
 
-    print(foursliced_numbers)
+    # print(foursliced_numbers)
     filled_fs_numbers = adjust_list(foursliced_numbers)
     # print(f"빈 공간 채워진 리스트: {filled_fs_numbers}")
 
